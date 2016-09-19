@@ -10,6 +10,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 *  "/"  endpoint                                    
 *  renders homepage html 
 */
+
+// app.use("/public/styles",express.static(__dirname + "/public/styles"));
+
 app.get('/', function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
