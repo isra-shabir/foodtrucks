@@ -1,5 +1,15 @@
 {
-  "devDependencies": {
+  "name": "EAN",
+  "version": "1.0.0",
+  "description": "An app that detects user location and returns a list of food trucks nearby",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
     "chai": "^3.5.0"
   }
 }
