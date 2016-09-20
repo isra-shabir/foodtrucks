@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
   <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css' rel='stylesheet' />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -17,17 +16,19 @@
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-heat/v0.1.3/leaflet-heat.js'></script>
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js'></script>
 
-  <div id="header" </div>
-  <h1> See favorite Food trucks below! </h1>
 
+  <h1> Find your favorite Food trucks below! </h1>
 
-  <div id="mapid" style="width:100% ; height: 700px"></div>
+  <div class="events-index-wrap">
+  <div id="trucklist" style="width:50% height:700px "></div>
+
+  <div id="mapid" style="position: relative; overflow: hidden; background-color: rgb(229, 227, 223); width:50%; height: 600px"></div>
 
   <script>      
 
-  // detect zipcode 
+  // detect zipcode and set the view to that 
+  // also give the option to enter zip code
   // update map to that location long/lat
-
 
   $(document).ready(function() {
 
@@ -35,7 +36,7 @@
       L.map.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw'
 
       // initialize map
-      var mymap = L.map('mapid').setView([37.7749, -122.4194], 13); 
+      var mymap = L.map('mapid').setView([37.7749, -122.4194], 12); 
 
       // mapbox api
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
@@ -45,8 +46,35 @@
           'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.streets'
       }).addTo(mymap);
-                          
-    });
-   </script>
+
+      var address = "94107"; // input the address from user
+      var lat;
+      var lng;
+
+      // get the lat/long for address, zipcode, city
+      $.ajax({
+        url: "http://maps.googleapis.com/maps/api/geocode/json?address="+address+"&sensor=false",
+        type: "POST",
+        success: function(res){
+           lat=res.results[0].geometry.location.lat;
+           lng=res.results[0].geometry.location.lng;
+        
+           $.ajax({
+            url: "/geodata",
+            data: {'lat':lat,'lng':lng},
+            type: "POST",
+            success: function(result) {
+                if ( typeof result == "string") {
+                    console.log("helo");
+                 } else {
+                    var foodtrucks = result;
+                 }
+            }
+          }); 
+        }
+      });
+      
+  });
+  </script>
 </body>
 </html>
