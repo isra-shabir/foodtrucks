@@ -11,9 +11,9 @@ Built By **Isra Shabir** for **KQED Coding Challenge.**
 
 > This is a full stack application that is entirely built in Javascript. I used node.js to render this application because of its asynchronous nature, which is useful in querying external API. Nodejs being light weight could easily retrieve and handle the data we needed for this application. 
 
->I made sure the code is separated into front-end vs back-end, and in fact most of the data retrieval and parsing happens on the server so that the client side performance is fast. I use Google Maps API & make ajax request to it to retrieve lat/long of specified location. Once this ajax completes, I make another subsequent ajax request to the server with the lat/long received. 
+>I made sure the code is separated into front-end vs back-end, and in fact most of the data retrieval and parsing happens on the server so that the client side performance is fast. I use Google Maps API & make ajax request to it to retrieve coordinates of specified location. Once this ajax completes, I make a subsequent ajax request to the server with these coordinates. 
 
-> I used the open data API query to fetch food trucks in a radius of 1000m, filtered the JSON received & sent the results back to the client. **Please see discussion about this API requests below**.
+> On the server side, I used the open data API query to fetch food trucks in a radius of 1000m, filtered the JSON received & sent the results back to the client. **Please see discussion about this API requests below**.
 
 > Client then reads the ajax response and renders the food trucks on the map
 
