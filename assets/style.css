@@ -1,0 +1,25 @@
+h1 {
+	font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+	font-size: 40px;
+	font-style: bold;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+	text-align:center; margin-bottom:70px;
+}
+
+
+field { font-family:arial, sans-serif; border-color: #d9d9d9; border-top:solid 1px #c0c0c0; }
+	input.field{width:30%;}
+	.fieldwrapper{
+	white-space: nowrap;
+	text-align:center;
+	margin-bottom: 50px;
+}
+
+#mapid { 
+  margin: auto;
+  position: center; overflow: hidden; 
+  background-color:rgb(229, 227, 223); width:90%; height: 500px;
+}
+

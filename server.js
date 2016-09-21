@@ -4,12 +4,10 @@ var bodyParser = require("body-parser");
 var request = require('request');
 
 var app = express();
-app.use(express.static(__dirname + "/public"));
+
+app.use('/assets', express.static('assets'));
+
 app.use(bodyParser.urlencoded({ extended: true })); 
-
-
-// figure out css use
-// app.use("/public/styles",express.static(__dirname + "/public/styles"));
 
 /*
 *  "/"  endpoint                                    
@@ -19,6 +17,14 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
 
+
+/* 
+* "/geodata" endpoint
+* receives lat/long of user
+* pings public data API
+* sends arr of foodtrucks
+* if found in the address
+*/
 app.post("/geodata", function(req, res) {
 
   var lat = req.body['lat'];
@@ -26,19 +32,24 @@ app.post("/geodata", function(req, res) {
 
   var obj;
 
-  //get all trucks within 1 mile radius
+  //get all trucks within 1000m radius
   request('https://data.sfgov.org/resource/6a9r-agq8.json?'+
-    '$where=within_circle(location,'+lat+','+lng+',1600)&$limit=20', 
+    '$where=within_circle(location,'+lat+','+lng+',1000)', 
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var arr = JSON.parse(body);
+          if (arr.length === 0) {
+            res.send("No Food Trucks in this Area!");
+            return;
+          }
           obj = arr.map(function(v){
             return {
               address: v.address,
               applicant: v.applicant,
               latitude: v.latitude,
               longitude: v.longitude,
-              dayshours: v.dayshours
+              dayshours: v.dayshours,
+              fooditems: v.fooditems
             }
           });
       } else {
@@ -46,8 +57,6 @@ app.post("/geodata", function(req, res) {
       }
   res.send(obj);
   });
-
-
 });
 
 // Initialize the app.
